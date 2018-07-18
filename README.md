@@ -1,5 +1,5 @@
 # Masternodescripts
-Masternode Install script for Ubuntu VPS
+Masternode Install script for Ubuntu VPS. Tested on http://vultr.altcoincash.xyz/
 This script configures a new vps, install dependencies, setting up swap and cronjobs. 
 Log in to the vps with Putty/MobaXterm, then run following commands
 
@@ -20,4 +20,9 @@ Masternode1 ip:port GENKEY collateral_output_txid collateral_output_index
 Where the ip:port and GENKEY is retrieved from the finished VPS install.
 Save the file and restart your wallet. Wait until fully synchronized, then go to Masternode tab and start your Masternode.
 
-You can check on the VPS with command hth-cli masternode status
+You can check on the VPS with commands:
+```
+check: hth-cli masternode status
+stop:  hth-cli stop
+start: hthd
+```
