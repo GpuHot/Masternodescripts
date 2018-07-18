@@ -5,7 +5,7 @@ NODEPORT='35888'
 RPCPORT='9215'
 # Useful variables
 declare -r DATE_STAMP="$(date +%y-%m-%d-%s)"
-declare -r SCRIPT_LOGFILE="/tmp/hth_node_${DATE_STAMP}_out.log"
+declare -r SCRIPT_LOGFILE="/root/.hthcore/log_inst_hth_node_${DATE_STAMP}_out.log"
 declare -r SCRIPTPATH=$( cd $(dirname ${BASH_SOURCE[0]}) > /dev/null; pwd -P )
 declare -r WANIP=$(dig +short myip.opendns.com @resolver1.opendns.com)
 function print_greeting() {
@@ -54,8 +54,7 @@ function remove_old_files() {
 	sudo killall hthd
 	sudo rm -rf /root/hth
 	sudo rm -rf /root/.hthcore
-    	sudo rm -rf hthd
-    	sudo rm -rf hth-cli
+    	sudo rm -rf /usr/local/bin/hth*
 	echo "Done..."
 }
 
@@ -128,12 +127,32 @@ function configure_masternode() {
 function addnodes() {
 	echo "Adding nodes..."
 	conffile=/root/.hthcore/hth.conf
-	echo -e "\naddnode=140.82.32.139" 	>> ${conffile}
-	echo -e "addnode=95.179.146.98" 	>> ${conffile}
-	echo -e "addnode=107.191.46.208" 	>> ${conffile}
-	echo -e "addnode=149.28.232.213" 	>> ${conffile}
-	echo -e "addnode=209.250.231.109" 	>> ${conffile}
-	echo -e "addnode=50.109.118.34\n" >> ${conffile}
+	echo -e "\addnode=140.82.32.139" >> ${conffile}
+	echo -e "addnode=95.179.146.98" >> ${conffile}
+	echo -e "addnode=107.191.46.208" >> ${conffile}
+	echo -e "addnode=50.109.118.34" >> ${conffile}
+	echo -e "addnode=80.7.86.121" >> ${conffile}
+	echo -e "addnode=167.99.217.206" >> ${conffile}
+	echo -e "addnode=104.196.16.148" >> ${conffile}
+	echo -e "addnode=83.243.128.13" >> ${conffile}
+	echo -e "addnode=94.158.93.121" >> ${conffile}
+	echo -e "addnode=167.99.190.68" >> ${conffile}
+	echo -e "addnode=138.68.1.181" >> ${conffile}
+	echo -e "addnode=206.189.98.150" >> ${conffile}
+	echo -e "addnode=167.99.217.206" >> ${conffile}
+	echo -e "addnode=167.99.190.68" >> ${conffile}
+	echo -e "addnode=138.68.1.181" >> ${conffile}
+	echo -e "addnode=138.68.156.199" >> ${conffile}
+	echo -e "addnode=206.189.98.150" >> ${conffile}
+	echo -e "addnode=167.99.217.206" >> ${conffile}
+	echo -e "addnode=167.99.190.68" >> ${conffile}
+	echo -e "addnode=138.68.1.181" >> ${conffile}
+	echo -e "addnode=138.68.156.199" >> ${conffile}
+	echo -e "addnode=206.189.98.150" >> ${conffile}
+	echo -e "addnode=104.196.16.148" >> ${conffile}
+	echo -e "addnode=169.1.11.215" >> ${conffile}
+	echo -e "addnode=83.243.128.13" >> ${conffile}
+	echo -e "addnode=83.146.113.6\n" >> ${conffile}
 	echo "Done..."
 }
 
