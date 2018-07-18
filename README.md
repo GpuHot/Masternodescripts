@@ -1,6 +1,7 @@
 # Masternodescripts
-Masternode Install script for Ubuntu VPS. Tested on http://vultr.altcoincash.xyz/
-This script configures a new vps, install dependencies, setting up swap and cronjobs. 
+Masternode Install script for Ubuntu VPS. Tested on http://vultr.altcoincash.xyz/ $5 VPS with Ubuntu 16.04.
+This script configures a new vps, install dependencies, set up swapfile and cronjobs, and install HTH in path for ease of use.
+It also create a logfile of the install in .hthcore folder. Ip:port and private key show at the end for easy copy/paste to control wallet.
 Log in to the vps with Putty/MobaXterm, then run following commands
 
  Help the Homeless coin:
