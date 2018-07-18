@@ -167,7 +167,7 @@ function show_result() {
 	echo ""
 	echo -e "[0;35m INSTALLED WITH VPS IP: ${WANIP}:${NODEPORT} [0m"
 	echo -e "[0;35m INSTALLED WITH MASTERNODE PRIVATE GENKEY: ${masternodekey} [0m"
-	echo ""
+	echo "[0;35m Copy to local Masternode.conf: ${WANIP}:${NODEPORT} ${masternodekey} [0m"
 	echo -e "If you get \"Masternode not in masternode list\" status, don't worry,\nyou just have to start your MN from your local wallet and the status will change"
 	echo -e "[0;35m==================================================================[0m"
 	echo -e "[0;35mCheck your node with command: hth-cli masternode status[0m"
