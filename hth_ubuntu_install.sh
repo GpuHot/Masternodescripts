@@ -67,10 +67,9 @@ function download_wallet() {
     	cd hth
 	wget https://github.com/HTHcoin/HTH/releases/download/v1.2/linux.zip
 	7z x linux.zip
-	mv /root/hth/linux/* /root/hth/
-	rm /root/hth/hth-qt
-	chmod +x /root/hth/*
-	mv /root/hth/* /usr/local/bin/
+	rm /root/hth/linux/hth-qt
+	chmod +x /root/hth/linux/*
+	mv /root/hth/linux/* /usr/local/bin/
 	rm -rf /root/hth/
 	echo "Done..."
 }
@@ -129,6 +128,20 @@ function addnodes() {
 	echo "Adding nodes..."
 	conffile=/root/.hthcore/hth.conf
 	echo -e "\addnode=140.82.32.139" >> ${conffile}
+	echo -e "addnode=80.211.42.72" >> ${conffile}
+	echo -e "addnode=77.81.229.126" >> ${conffile}
+	echo -e "addnode=138.68.1.181" >> ${conffile}
+	echo -e "addnode=138.68.156.199" >> ${conffile}
+	echo -e "addnode=167.99.190.68" >> ${conffile}
+	echo -e "addnode=167.99.46.23" >> ${conffile}
+	echo -e "addnode=198.23.197.230" >> ${conffile}
+	echo -e "addnode=199.247.27.143" >> ${conffile}
+	echo -e "addnode=209.250.251.94" >> ${conffile}
+	echo -e "addnode=209.250.231.109" >> ${conffile}
+	echo -e "addnode=23.94.173.10" >> ${conffile}
+	echo -e "addnode=45.77.152.231" >> ${conffile}
+	echo -e "addnode=64.140.150.153" >> ${conffile}
+	echo -e "addnode=77.81.229.126" >> ${conffile}
 	echo -e "addnode=95.179.146.98" >> ${conffile}
 	echo -e "addnode=107.191.46.208" >> ${conffile}
 	echo -e "addnode=50.109.118.34" >> ${conffile}
