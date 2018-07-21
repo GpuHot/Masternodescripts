@@ -10,11 +10,17 @@ Click on the new servers name to find IP and root password.
 To connect to your VPS you need https://www.putty.org/, https://mobaxterm.mobatek.net/download.html or another SSH client.
 
 Log in to the vps with Putty/MobaXterm, then run following commands
-
+If the VPS is newly deployed, run these 3 lines first:
+```
+apt-get update
+apt-get upgrade
+reboot
+```Now when all is ready, install HTH:
 ```
 wget https://raw.githubusercontent.com/GpuHot/Masternodescripts/master/hth_ubuntu_install.sh
 bash hth_ubuntu_install.sh
 ```
+
 Sit back and wait while the script finishes, or set up the local wallet:
 Make a receive address called Masternode1, send collateral 2 500 000 HTH to the address. Wait for confirmations.
 Go to Settings > Options >Wallet, and activate "Show Masternodes Tab"
