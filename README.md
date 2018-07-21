@@ -1,10 +1,14 @@
 # Masternodescripts
-Masternode Install script for Ubuntu VPS. Tested on http://vultr.altcoincash.xyz/ $5 VPS with Ubuntu 16.04.
+Masternode Install script for Help the Homeless coin on Ubuntu VPS. 
 This script configures a new vps, install dependencies, set up swapfile and cronjobs, and install HTH in path for ease of use.
 It also create a logfile of the install in .hthcore folder. Ip:port and private key show at the end for easy copy/paste to control wallet.
-Log in to the vps with Putty/MobaXterm, then run following commands
 
- Help the Homeless coin:
+Tested on http://vultr.altcoincash.xyz/ $5 VPS with Ubuntu 16.04, 64bit OS. 
+At Vultr > Deploy new server you choose location, os, and add Server Hostname & Label. Nothing else needed.
+Click on the new servers name to find IP and root password. 
+To connect to your VPS you need https://www.putty.org/, https://mobaxterm.mobatek.net/download.html or another SSH client.
+
+Log in to the vps with Putty/MobaXterm, then run following commands
 
 ```
 wget https://raw.githubusercontent.com/GpuHot/Masternodescripts/master/hth_ubuntu_install.sh
