@@ -4,6 +4,7 @@ This script configures a new vps, install dependencies, set up swapfile and cron
 It also create a logfile of the install in .hthcore folder. Ip:port and private key show at the end for easy copy/paste to control wallet.
 
 Tested on http://vultr.altcoincash.xyz/ $5 VPS with Ubuntu 16.04, 64bit OS. 
+
 At Vultr > Deploy new server you choose location, os, and add Server Hostname & Label. Nothing else needed.
 Click on the new servers name to find IP and root password. 
 To connect to your VPS you need https://www.putty.org/, https://mobaxterm.mobatek.net/download.html or another SSH client.
