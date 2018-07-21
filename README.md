@@ -18,7 +18,7 @@ Go to Tools > Open Masternode Configuration File
 Make a new line like the example,
 Masternode1 ip:port GENKEY collateral_output_txid collateral_output_index
 
-Where the ip:port and GENKEY is retrieved from the finished VPS install.
+Where the ip:port and GENKEY is retrieved from the finished VPS install. collateral_output_txid AND collateral_output_index is from the Debug console.
 Save the file and restart your wallet. Wait until fully synchronized, then go to Masternode tab and start your Masternode.
 
 You can check on the VPS with commands:
