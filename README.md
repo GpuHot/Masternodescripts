@@ -15,7 +15,8 @@ If the VPS is newly deployed, run these 3 lines first:
 apt-get update
 apt-get upgrade
 reboot
-```Now when all is ready, install HTH:
+```
+Now when all is ready, install HTH:
 ```
 wget https://raw.githubusercontent.com/GpuHot/Masternodescripts/master/hth_ubuntu_install.sh
 bash hth_ubuntu_install.sh
