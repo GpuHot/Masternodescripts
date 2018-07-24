@@ -9,13 +9,19 @@ At Vultr > Deploy new server you choose location, os, and add Server Hostname & 
 Click on the new servers name to find IP and root password. 
 To connect to your VPS you need https://www.putty.org/, https://mobaxterm.mobatek.net/download.html or another SSH client.
 
-Log in to the vps with Putty/MobaXterm, then run following commands
+Log in to the vps with Putty/MobaXterm, with username `root`and the password from vultr.
+To paste the password you right click in the screen once. It will not show anything on the screen, so hit enter to log in.
+------
+Then run following commands:
+
 If the VPS is newly deployed, run these 3 lines first:
 ```
 apt-get update
 apt-get upgrade
 reboot
 ```
+To paste into a linux screen you right click in the screen once. 
+After the reboot, log in again.
 Now when all is ready, install HTH:
 ```
 wget https://raw.githubusercontent.com/GpuHot/Masternodescripts/master/hth_ubuntu_install.sh
