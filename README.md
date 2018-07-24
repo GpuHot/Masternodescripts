@@ -5,14 +5,15 @@ It also create a logfile of the install in .hthcore folder. Ip:port and private 
 
 Tested on http://vultr.altcoincash.xyz/ $5 VPS with Ubuntu 16.04, 64bit OS. 
 
-At Vultr > Deploy new server you choose location, os, and add Server Hostname & Label. Nothing else needed.
+Go to Vultr > Deploy new server you choose location, os, and add Server Hostname & Label. Nothing else needed.
 Click on the new servers name to find IP and root password
-To connect to your VPS you need https://www.putty.org/, https://mobaxterm.mobatek.net/download.html or another SSH client
-Log in to the vps with Putty/MobaXterm, with username `root`and the password from vultr
-To paste the password you right click in the screen once
-It will not show anything on the screen, so hit enter to log in
-------
-Then run following commands:
+To connect to your VPS you need https://www.putty.org/, https://mobaxterm.mobatek.net/download.html or another SSH client.
+
+Log in to the vps with Putty/MobaXterm, with username `root`and the password from vultr.
+To paste the password you right click in the screen once.
+It will not show anything on the screen, so hit enter to log in.
+
+Copy/paste and run following commands:
 
 If the VPS is newly deployed, run these 3 lines first:
 ```
