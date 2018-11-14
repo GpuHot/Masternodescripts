@@ -13,22 +13,15 @@ Log in to the vps with Putty/MobaXterm, with username `root`and the password fro
 To paste the password you right click in the screen once.
 It will not show anything on the screen, so hit enter to log in.
 
-Copy/paste and run following commands:
-
-If the VPS is newly deployed, run these 3 lines first:
-```
-apt-get update
-apt-get upgrade
-reboot
-```
 __To paste into a linux screen you right click in the screen once.__
-After the reboot, log in again.
 
-Now when all is ready, install HTH:
+Copy/paste and run following commands:
 ```
 wget https://raw.githubusercontent.com/GpuHot/Masternodescripts/master/hth_ubuntu_install.sh
 bash hth_ubuntu_install.sh
 ```
+Some dependencies may require a reboot to install. If this is the case the script may print some errors and will not generate a private key. 
+Simply reboot and run the script once more.
 
 While waiting for the script to finish, you can set up the local wallet:
 
