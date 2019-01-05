@@ -28,7 +28,6 @@ function install_packages() {
 	add-apt-repository -yu ppa:bitcoin/bitcoin  &>> ${SCRIPT_LOGFILE}
 	apt-get -y update &>> ${SCRIPT_LOGFILE}
   	apt-get -y upgrade &>> ${SCRIPT_LOGFILE}
- 	sudo apt-get install p7zip-full &>> ${SCRIPT_LOGFILE}
 	apt-get -y install wget make automake autoconf build-essential libtool autotools-dev \
 	git nano python-virtualenv pwgen virtualenv \
 	pkg-config libssl-dev libevent-dev bsdmainutils software-properties-common \
@@ -65,8 +64,8 @@ function download_wallet() {
 	mkdir /root/hth
 	mkdir /root/.hthcore
     	cd hth
-	wget https://github.com/HTHcoin/HTH/releases/download/v1.2/linux.zip
-	7z x linux.zip
+	wget https://github.com/HTHcoin/HTH/releases/download/v1.2/hth-linux.zip
+	unzip hth-linux.zip
 	rm /root/hth/linux/hth-qt
 	chmod +x /root/hth/linux/*
 	mv /root/hth/linux/* /usr/local/bin/
