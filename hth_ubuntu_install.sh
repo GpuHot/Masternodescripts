@@ -15,7 +15,7 @@ function print_greeting() {
 
 function print_info() {
 	echo -e "[0;35m Install script version:[0m ${VERSION}"
-	echo -e "[0;35m Your ip:[0m ${WANIP}"
+	echo -e "[0;35m Your masternode ip:[0m ${WANIP}"
 	echo -e "[0;35m Masternode port:[0m ${NODEPORT}"
 	echo -e "[0;35m RPC port:[0m ${RPCPORT}"
 	echo -e "[0;35m Date:[0m ${DATE_STAMP}"
@@ -51,25 +51,20 @@ function swaphack() {
 
 function remove_old_files() {
 	echo "Removing old files..."
-	sudo killall hthd
-	sudo rm -rf /root/hth
-	sudo rm -rf /root/.hthcore
-    	sudo rm -rf /usr/local/bin/hth*
+	sudo pkill hthd
+	sudo rm -rf /root/hth /root/.hthcore /usr/local/bin/hth*
 	echo "Done..."
 }
 
 
 function download_wallet() {
 	echo "Downloading wallet..."
-	mkdir /root/hth
-	mkdir /root/.hthcore
-    	cd /root/hth
 	wget https://github.com/HTHcoin/HTH/releases/download/v1.2/hth-linux.zip
-	unzip hth-linux.zip
-	rm /root/hth/linux/hth-qt
-	chmod +x /root/hth/linux/*
-	mv /root/hth/linux/* /usr/local/bin/
-	rm -rf /root/hth/
+	gunzip hth-linux.zip
+	rm /root/linux/hth-qt
+	chmod +x /root/linux/*
+	mv /root/linux/* /usr/local/bin/
+	rm -rf /root/linux/
 	echo "Done..."
 }
 
