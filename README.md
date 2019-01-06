@@ -3,7 +3,7 @@ Masternode Install script for Help the Homeless coin on Ubuntu VPS.
 This script configures a new vps, install dependencies, set up swapfile and cronjobs, and install HTH in path for ease of use.
 A logfile of the install is created. Details shown at the end for easy copy/paste to control wallet.
 
-Tested on http://vultr.altcoincash.xyz/ $5 VPS with Ubuntu 16.04, 64bit OS. 
+Tested on http://vultr.altcoincash.xyz/ $5 VPS with Ubuntu 16.04, 64bit OS.
 Also tested on https://m.do.co/c/78dfae8fa2d7 Digital Ocean VPS. 
 
 Go to Vultr > Deploy new server you choose location, os, and add Server Hostname & Label. Nothing else needed.
