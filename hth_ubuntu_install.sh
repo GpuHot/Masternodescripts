@@ -29,7 +29,7 @@ function install_packages() {
 	apt-get -y update &>> ${SCRIPT_LOGFILE}
   	apt-get -y upgrade &>> ${SCRIPT_LOGFILE}
 	apt-get -y install wget make automake autoconf build-essential libtool autotools-dev \
-	git nano python-virtualenv pwgen virtualenv \
+	git nano python-virtualenv pwgen unzip virtualenv \
 	pkg-config libssl-dev libevent-dev bsdmainutils software-properties-common \
 	libboost-all-dev libminiupnpc-dev libdb4.8-dev libdb4.8++-dev &>> ${SCRIPT_LOGFILE}
 	echo "Install done..."
@@ -60,7 +60,7 @@ function remove_old_files() {
 function download_wallet() {
 	echo "Downloading wallet..."
 	wget https://github.com/HTHcoin/HTH/releases/download/v1.2/hth-linux.zip
-	gunzip hth-linux.zip
+	unzip hth-linux.zip
 	rm /root/linux/hth-qt
 	chmod +x /root/linux/*
 	mv /root/linux/* /usr/local/bin/
@@ -87,6 +87,7 @@ function configure_firewall() {
 
 function configure_masternode() {
 	echo "Configuring masternode..."
+	mkdir /root/.hthcore
 	conffile=/root/.hthcore/hth.conf
 	PASSWORD=`pwgen -1 20 -n` &>> ${SCRIPT_LOGFILE}
 	if [ "x$PASSWORD" = "x" ]; then
