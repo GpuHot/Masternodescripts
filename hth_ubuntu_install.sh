@@ -87,7 +87,6 @@ function configure_firewall() {
 
 function configure_masternode() {
 	echo "Configuring masternode..."
-	mkdir /root/.hthcore
 	conffile=/root/.hthcore/hth.conf
 	PASSWORD=`pwgen -1 20 -n` &>> ${SCRIPT_LOGFILE}
 	if [ "x$PASSWORD" = "x" ]; then
@@ -95,7 +94,7 @@ function configure_masternode() {
 	fi
 	echo "Loading and syncing wallet..."
 	echo "    if you see *error: Could not locate RPC credentials* message, do not worry"
-	hth-cli stop
+#	hth-cli stop
 	echo "It's okay."
 	sleep 10
 	echo -e "rpcuser=hthuser\nrpcpassword=${PASSWORD}\nrpcport=${RPCPORT}\nrpcallowip=127.0.0.1\nport=${NODEPORT}\nexternalip=${WANIP}\nlisten=1\nmaxconnections=250" >> ${conffile}
@@ -109,10 +108,10 @@ function configure_masternode() {
 	echo "2 MINUTES LEFT"
 	sleep 60
 	echo "1 MINUTE LEFT"
-	sleep 60
+	sleep 10
 	masternodekey=$(hth-cli masternode genkey)
 	hth-cli stop
-	sleep 20
+	sleep 15
 	echo "Creating masternode config..."
 	echo -e "daemon=1\nmasternode=1\nmasternodeprivkey=$masternodekey" >> ${conffile}
 	echo "Done...Starting daemon..."
@@ -121,6 +120,8 @@ function configure_masternode() {
 
 function addnodes() {
 	echo "Adding nodes..."
+	mkdir /root/.hthcore
+	touch /root/.hthcore/hth.conf
 	conffile=/root/.hthcore/hth.conf
 	echo -e "\addnode=151.236.57.21:35888" >> ${conffile}
 	echo -e "addnode=167.99.158.141:35888" >> ${conffile}
