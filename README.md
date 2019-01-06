@@ -1,23 +1,27 @@
 # Masternodescripts
 Masternode Install script for Help the Homeless coin on Ubuntu VPS. 
 This script configures a new vps, install dependencies, set up swapfile and cronjobs, and install HTH in path for ease of use.
-It also create a logfile of the install in .hthcore folder. Ip:port and private key show at the end for easy copy/paste to control wallet.
+A logfile of the install is created. Details shown at the end for easy copy/paste to control wallet.
 
-Tested on http://vultr.altcoincash.xyz/ $5 VPS with Ubuntu 16.04, 64bit OS. 
+Tested on http://vultr.altcoincash.xyz/ $5 VPS with Ubuntu 16.04, 64bit OS.
+Also tested on https://m.do.co/c/78dfae8fa2d7 Digital Ocean VPS. 
 
 Go to Vultr > Deploy new server you choose location, os, and add Server Hostname & Label. Nothing else needed.
-Click on the new servers name to find IP and root password
+
+Click on the new servers name to find IP and root password.
+At Digital Ocean you create a new droplet.
+
 To connect to your VPS you need https://www.putty.org/, https://mobaxterm.mobatek.net/download.html or another SSH client.
 
 Log in to the vps with Putty/MobaXterm, with username `root`and the password from vultr.
-To paste the password you right click in the screen once.
+To paste the password in linux you right click in the screen once.
 It will not show anything on the screen, so hit enter to log in.
 
 __To paste into a linux screen you right click in the screen once.__
 
 Copy/paste and run following commands:
 ```
-wget https://raw.githubusercontent.com/GpuHot/Masternodescripts/master/hth_ubuntu_install.sh
+wget https://github.com/GpuHot/Masternodescripts/raw/patch2final/hth_ubuntu_install.sh
 bash hth_ubuntu_install.sh
 ```
 Some dependencies may require a reboot to install. If this is the case the script may print some errors and will not generate a private key. 

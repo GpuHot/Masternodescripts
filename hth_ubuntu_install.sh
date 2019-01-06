@@ -5,17 +5,19 @@ NODEPORT='35888'
 RPCPORT='9215'
 # Useful variables
 declare -r DATE_STAMP="$(date +%y-%m-%d-%s)"
-declare -r SCRIPT_LOGFILE="/root/.hthcore/log_inst_hth_node_${DATE_STAMP}_out.log"
+declare -r SCRIPT_LOGFILE="/root/log_inst_hth_node_${DATE_STAMP}_out.log"
 declare -r SCRIPTPATH=$( cd $(dirname ${BASH_SOURCE[0]}) > /dev/null; pwd -P )
 declare -r WANIP=$(dig +short myip.opendns.com @resolver1.opendns.com)
 function print_greeting() {
-	echo -e "[0;35m HTH masternode install script[0m\n"
+	echo ""
+	echo -e "HTH masternode install script\n"
 }
 
 
 function print_info() {
-	echo -e "[0;35m Install script version:[0m ${VERSION}"
-	echo -e "[0;35m Your ip:[0m ${WANIP}"
+	echo ""
+	echo -e "[0;35m HTHcoin version:[0m ${VERSION}"
+	echo -e "[0;35m Your masternode ip:[0m ${WANIP}"
 	echo -e "[0;35m Masternode port:[0m ${NODEPORT}"
 	echo -e "[0;35m RPC port:[0m ${RPCPORT}"
 	echo -e "[0;35m Date:[0m ${DATE_STAMP}"
@@ -24,16 +26,17 @@ function print_info() {
 
 
 function install_packages() {
-	echo "Install packages..."
+	echo ""
+	echo "Updating system and install dependencies..."
 	add-apt-repository -yu ppa:bitcoin/bitcoin  &>> ${SCRIPT_LOGFILE}
 	apt-get -y update &>> ${SCRIPT_LOGFILE}
   	apt-get -y upgrade &>> ${SCRIPT_LOGFILE}
- 	sudo apt-get install p7zip-full &>> ${SCRIPT_LOGFILE}
 	apt-get -y install wget make automake autoconf build-essential libtool autotools-dev \
-	git nano python-virtualenv pwgen virtualenv \
+	git nano python-virtualenv pwgen unzip virtualenv \
 	pkg-config libssl-dev libevent-dev bsdmainutils software-properties-common \
 	libboost-all-dev libminiupnpc-dev libdb4.8-dev libdb4.8++-dev &>> ${SCRIPT_LOGFILE}
 	echo "Install done..."
+	echo ""
 }
 
 
@@ -47,31 +50,28 @@ function swaphack() {
 	mkswap /var/hth_node_swap.img &>> ${SCRIPT_LOGFILE}
 	free -h
 	echo "Swap setup complete..."
+	echo ""
 }
 
 
 function remove_old_files() {
 	echo "Removing old files..."
-	sudo killall hthd
-	sudo rm -rf /root/hth
-	sudo rm -rf /root/.hthcore
-    	sudo rm -rf /usr/local/bin/hth*
+	sudo pkill hthd
+	sudo rm -rf /root/hth /root/.hthcore /usr/local/bin/hth*
 	echo "Done..."
 }
 
 
 function download_wallet() {
 	echo "Downloading wallet..."
-	mkdir /root/hth
-	mkdir /root/.hthcore
-    	cd hth
-	wget https://github.com/HTHcoin/HTH/releases/download/v1.2/linux.zip
-	7z x linux.zip
-	rm /root/hth/linux/hth-qt
-	chmod +x /root/hth/linux/*
-	mv /root/hth/linux/* /usr/local/bin/
-	rm -rf /root/hth/
+	wget -q https://github.com/HTHcoin/HTH/releases/download/v1.2/hth-linux.zip
+	unzip hth-linux.zip
+	rm /root/linux/hth-qt
+	chmod +x /root/linux/*
+	mv /root/linux/* /usr/local/bin/
+	rm -rf /root/linux/
 	echo "Done..."
+	echo ""
 }
 
 
@@ -88,6 +88,7 @@ function configure_firewall() {
 	ufw limit OpenSSH			&>> ${SCRIPT_LOGFILE}
 	ufw --force enable			&>> ${SCRIPT_LOGFILE}
 	echo "Done..."
+	echo ""
 }
 
 
@@ -99,25 +100,24 @@ function configure_masternode() {
 	    PASSWORD=${WANIP}-`date +%s`
 	fi
 	echo "Loading and syncing wallet..."
-	echo "    if you see *error: Could not locate RPC credentials* message, do not worry"
-	hth-cli stop
-	echo "It's okay."
+
 	sleep 10
 	echo -e "rpcuser=hthuser\nrpcpassword=${PASSWORD}\nrpcport=${RPCPORT}\nrpcallowip=127.0.0.1\nport=${NODEPORT}\nexternalip=${WANIP}\nlisten=1\nmaxconnections=250" >> ${conffile}
 	echo ""
 	echo -e "[0;35m==================================================================[0m"
 	echo -e "     DO NOT CLOSE THIS WINDOW OR TRY TO FINISH THIS PROCESS"
-	echo -e "                        PLEASE WAIT 2 MINUTES"
+	echo -e "                        PLEASE WAIT..."
 	echo -e "[0;35m==================================================================[0m"
 	echo ""
 	hthd -daemon
-	echo "2 MINUTES LEFT"
-	sleep 60
-	echo "1 MINUTE LEFT"
-	sleep 60
+	echo "< 2 MINUTES LEFT"
+	sleep 30
+	echo "< 1 MINUTE LEFT"
+	sleep 10
 	masternodekey=$(hth-cli masternode genkey)
 	hth-cli stop
-	sleep 20
+	echo ""
+	sleep 10
 	echo "Creating masternode config..."
 	echo -e "daemon=1\nmasternode=1\nmasternodeprivkey=$masternodekey" >> ${conffile}
 	echo "Done...Starting daemon..."
@@ -126,47 +126,28 @@ function configure_masternode() {
 
 function addnodes() {
 	echo "Adding nodes..."
+	mkdir /root/.hthcore
+	touch /root/.hthcore/hth.conf
 	conffile=/root/.hthcore/hth.conf
-	echo -e "\addnode=140.82.32.139" >> ${conffile}
-	echo -e "addnode=80.211.42.72" >> ${conffile}
-	echo -e "addnode=77.81.229.126" >> ${conffile}
-	echo -e "addnode=138.68.1.181" >> ${conffile}
-	echo -e "addnode=138.68.156.199" >> ${conffile}
-	echo -e "addnode=167.99.190.68" >> ${conffile}
-	echo -e "addnode=167.99.46.23" >> ${conffile}
-	echo -e "addnode=198.23.197.230" >> ${conffile}
-	echo -e "addnode=199.247.27.143" >> ${conffile}
-	echo -e "addnode=209.250.251.94" >> ${conffile}
-	echo -e "addnode=209.250.231.109" >> ${conffile}
-	echo -e "addnode=23.94.173.10" >> ${conffile}
-	echo -e "addnode=45.77.152.231" >> ${conffile}
-	echo -e "addnode=64.140.150.153" >> ${conffile}
-	echo -e "addnode=77.81.229.126" >> ${conffile}
-	echo -e "addnode=95.179.146.98" >> ${conffile}
-	echo -e "addnode=107.191.46.208" >> ${conffile}
-	echo -e "addnode=50.109.118.34" >> ${conffile}
-	echo -e "addnode=80.7.86.121" >> ${conffile}
-	echo -e "addnode=167.99.217.206" >> ${conffile}
-	echo -e "addnode=104.196.16.148" >> ${conffile}
-	echo -e "addnode=83.243.128.13" >> ${conffile}
-	echo -e "addnode=94.158.93.121" >> ${conffile}
-	echo -e "addnode=167.99.190.68" >> ${conffile}
-	echo -e "addnode=138.68.1.181" >> ${conffile}
-	echo -e "addnode=206.189.98.150" >> ${conffile}
-	echo -e "addnode=167.99.217.206" >> ${conffile}
-	echo -e "addnode=167.99.190.68" >> ${conffile}
-	echo -e "addnode=138.68.1.181" >> ${conffile}
-	echo -e "addnode=138.68.156.199" >> ${conffile}
-	echo -e "addnode=206.189.98.150" >> ${conffile}
-	echo -e "addnode=167.99.217.206" >> ${conffile}
-	echo -e "addnode=167.99.190.68" >> ${conffile}
-	echo -e "addnode=138.68.1.181" >> ${conffile}
-	echo -e "addnode=138.68.156.199" >> ${conffile}
-	echo -e "addnode=206.189.98.150" >> ${conffile}
-	echo -e "addnode=104.196.16.148" >> ${conffile}
-	echo -e "addnode=169.1.11.215" >> ${conffile}
-	echo -e "addnode=83.243.128.13" >> ${conffile}
-	echo -e "addnode=83.146.113.6\n" >> ${conffile}
+	echo -e "\addnode=151.236.57.21:35888" >> ${conffile}
+	echo -e "addnode=167.99.158.141:35888" >> ${conffile}
+	echo -e "addnode=173.176.247.102:35888" >> ${conffile}
+	echo -e "addnode=173.199.118.32:35888" >> ${conffile}
+	echo -e "addnode=173.212.247.217:35888" >> ${conffile}
+	echo -e "addnode=185.28.103.13:35888" >> ${conffile}
+	echo -e "addnode=188.166.80.179:35888" >> ${conffile}
+	echo -e "addnode=194.67.217.239:35888" >> ${conffile}
+	echo -e "addnode=202.39.49.57:35888" >> ${conffile}
+	echo -e "addnode=207.148.92.79:35888" >> ${conffile}
+	echo -e "addnode=209.250.248.38:35888" >> ${conffile}
+	echo -e "addnode=23.227.163.148:35888" >> ${conffile}
+	echo -e "addnode=45.32.190.193:35888" >> ${conffile}
+	echo -e "addnode=45.76.254.107:35888" >> ${conffile}
+	echo -e "addnode=45.77.186.177:35888" >> ${conffile}
+	echo -e "addnode=5.188.104.245:35888" >> ${conffile}
+	echo -e "addnode=5.19.171.173:35888" >> ${conffile}
+	echo -e "addnode=52.14.3.157:35888" >> ${conffile}
+	echo -e "addnode=63.142.254.44:35888\n" >> ${conffile}
 	echo "Done..."
 }
 
@@ -174,6 +155,7 @@ function addnodes() {
 function show_result() {
 	echo ""
 	echo -e "[0;35m==================================================================[0m"
+	echo "[0;35m Congrats, your masternode is installed and running on the server! [0m"
 	echo "DATE: ${DATE_STAMP}"
 	echo "LOG: ${SCRIPT_LOGFILE}"
 	echo "rpcuser=hthuser"
@@ -181,13 +163,21 @@ function show_result() {
 	echo ""
 	echo -e "[0;35m INSTALLED WITH VPS IP: ${WANIP}:${NODEPORT} [0m"
 	echo -e "[0;35m INSTALLED WITH MASTERNODE PRIVATE GENKEY: ${masternodekey} [0m"
-	echo "[0;35m Copy to local Masternode.conf: ${WANIP}:${NODEPORT} ${masternodekey} [0m"
-	echo -e "If you get \"Masternode not in masternode list\" status, don't worry,\nyou just have to start your MN from your local wallet and the status will change"
+	echo ""
+	echo "Below is alias IP:port masternodeprivkey "
+	echo ""
+	echo " Copy to local Masternode.conf:[0;35m MN1 ${WANIP}:${NODEPORT} ${masternodekey} [0m "
+	echo ""
+	echo "In your local wallets debug console, type command: [0;35mmasternode outputs[0m "
+	echo "and append resulting collateral_output_txid collateral_output_index to the end of line"
+	echo ""
 	echo -e "[0;35m==================================================================[0m"
 	echo -e "[0;35mCheck your node with command: hth-cli masternode status[0m"
 	echo -e "[0;35mStop your node with command: hth-cli stop[0m"
 	echo -e "[0;35mStart your node with command: hthd[0m"
 	echo -e "[0;35m==================================================================[0m"
+	echo -e "If you get \"Masternode not in masternode list\" status, don't worry,\nyou just have to start your MN from your local wallet and the status will change"
+	
 }
 
 
@@ -195,7 +185,6 @@ function cleanup() {
 	echo "Cleanup..."
 	apt-get -y autoremove 	&>> ${SCRIPT_LOGFILE}
 	apt-get -y autoclean 		&>> ${SCRIPT_LOGFILE}
-	echo "Done..."
 }
 
 
@@ -262,5 +251,11 @@ configure_masternode
 show_result
 cleanup
 echo "All done!"
+echo -e "Please join our community at HTH Discord https://discord.gg/eUKyUbB"
+echo "Ann: https://bitcointalk.org/index.php?topic=4578705"
+echo "Twitter: https://twitter.com/hthcoin"
+echo "Reddit: https://www.reddit.com/user/HTHCoin"
+echo "Facebook: https://www.facebook.com/hth.coin.9"
+echo ""
 cd ~/
 sudo rm /root/hth_ubuntu_install.sh
