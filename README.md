@@ -21,7 +21,7 @@ __To paste into a linux screen you right click in the screen once.__
 
 Copy/paste and run following commands:
 ```
-wget https://github.com/GpuHot/Masternodescripts/raw/patch2final/hth_ubuntu_install.sh
+wget https://github.com/HTHcoin/Masternodescripts/raw/master/hth_ubuntu_install.sh
 bash hth_ubuntu_install.sh
 ```
 Some dependencies may require a reboot to install. If this is the case the script may print some errors and will not generate a private key. 
