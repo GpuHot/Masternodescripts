@@ -95,9 +95,7 @@ function configure_masternode() {
 	fi
 	echo "Loading and syncing wallet..."
 	echo "    if you see *error: Could not locate RPC credentials* message, do not worry"
-	hth-cli stop
 	echo "It's okay."
-	sleep 10
 	echo -e "rpcuser=hthuser\nrpcpassword=${PASSWORD}\nrpcport=${RPCPORT}\nrpcallowip=127.0.0.1\nport=${NODEPORT}\nexternalip=${WANIP}\nlisten=1\nmaxconnections=250" >> ${conffile}
 	echo ""
 	echo -e "[0;35m==================================================================[0m"
@@ -107,17 +105,12 @@ function configure_masternode() {
 	echo ""
 	hthd -daemon
 	echo "2 MINUTES LEFT"
-	sleep 60
-	echo "1 MINUTE LEFT"
-	sleep 60
+	sleep 10
 	masternodekey=$(hth-cli masternode genkey)
 	hth-cli stop
-	sleep 20
-	echo "Creating masternode config..."
-	echo -e "daemon=1\nmasternode=1\nmasternodeprivkey=$masternodekey" >> ${conffile}
-	echo "Done...Starting daemon..."
-	hthd -daemon
-}
+	echo "1 MINUTE LEFT"
+	sleep 10
+	}
 
 function addnodes() {
 	echo "Adding nodes..."
@@ -142,6 +135,10 @@ function addnodes() {
 	echo -e "addnode=52.14.3.157:35888" >> ${conffile}
 	echo -e "addnode=63.142.254.44:35888\n" >> ${conffile}
 	echo "Done..."
+	echo "Creating masternode config..."
+	echo -e "daemon=1\nmasternode=1\nmasternodeprivkey=$masternodekey" >> ${conffile}
+	echo "Done...Starting daemon..."
+	hthd -daemon
 }
 
 
@@ -155,13 +152,18 @@ function show_result() {
 	echo ""
 	echo -e "[0;35m INSTALLED WITH VPS IP: ${WANIP}:${NODEPORT} [0m"
 	echo -e "[0;35m INSTALLED WITH MASTERNODE PRIVATE GENKEY: ${masternodekey} [0m"
+	echo -e ""
 	echo "[0;35m Copy to local Masternode.conf: ${WANIP}:${NODEPORT} ${masternodekey} [0m"
+	echo -e ""
 	echo -e "If you get \"Masternode not in masternode list\" status, don't worry,\nyou just have to start your MN from your local wallet and the status will change"
+	echo -e ""
 	echo -e "[0;35m==================================================================[0m"
 	echo -e "[0;35mCheck your node with command: hth-cli masternode status[0m"
 	echo -e "[0;35mStop your node with command: hth-cli stop[0m"
 	echo -e "[0;35mStart your node with command: hthd[0m"
 	echo -e "[0;35m==================================================================[0m"
+	echo -e ""
+	echo -e "For questions please join HTH Discord https://discord.gg/eUKyUbB"
 }
 
 
