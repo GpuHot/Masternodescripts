@@ -10,13 +10,13 @@ declare -r SCRIPTPATH=$( cd $(dirname ${BASH_SOURCE[0]}) > /dev/null; pwd -P )
 declare -r WANIP=$(dig +short myip.opendns.com @resolver1.opendns.com)
 function print_greeting() {
 	echo ""
-	echo -e "[0;35m HTH masternode install script[0m\n"
+	echo -e "HTH masternode install script\n"
 }
 
 
 function print_info() {
 	echo ""
-	echo -e "[0;35m Install script version:[0m ${VERSION}"
+	echo -e "[0;35m HTHcoin version:[0m ${VERSION}"
 	echo -e "[0;35m Your masternode ip:[0m ${WANIP}"
 	echo -e "[0;35m Masternode port:[0m ${NODEPORT}"
 	echo -e "[0;35m RPC port:[0m ${RPCPORT}"
@@ -100,9 +100,7 @@ function configure_masternode() {
 	    PASSWORD=${WANIP}-`date +%s`
 	fi
 	echo "Loading and syncing wallet..."
-#	echo "    if you see *error: Could not locate RPC credentials* message, do not worry"
-#	hth-cli stop
-	echo "It's okay."
+
 	sleep 10
 	echo -e "rpcuser=hthuser\nrpcpassword=${PASSWORD}\nrpcport=${RPCPORT}\nrpcallowip=127.0.0.1\nport=${NODEPORT}\nexternalip=${WANIP}\nlisten=1\nmaxconnections=250" >> ${conffile}
 	echo ""
@@ -112,9 +110,9 @@ function configure_masternode() {
 	echo -e "[0;35m==================================================================[0m"
 	echo ""
 	hthd -daemon
-	echo "2 MINUTES LEFT"
-	sleep 40
-	echo "1 MINUTE LEFT"
+	echo "< 2 MINUTES LEFT"
+	sleep 30
+	echo "< 1 MINUTE LEFT"
 	sleep 10
 	masternodekey=$(hth-cli masternode genkey)
 	hth-cli stop
@@ -167,16 +165,19 @@ function show_result() {
 	echo -e "[0;35m INSTALLED WITH MASTERNODE PRIVATE GENKEY: ${masternodekey} [0m"
 	echo ""
 	echo "Below is alias IP:port masternodeprivkey "
+	echo ""
 	echo " Copy to local Masternode.conf:[0;35m MN1 ${WANIP}:${NODEPORT} ${masternodekey} [0m "
+	echo ""
 	echo "In your local wallets debug console, type command: [0;35mmasternode outputs[0m "
 	echo "and append resulting collateral_output_txid collateral_output_index to the end of line"
 	echo ""
-	echo -e "If you get \"Masternode not in masternode list\" status, don't worry,\nyou just have to start your MN from your local wallet and the status will change"
 	echo -e "[0;35m==================================================================[0m"
 	echo -e "[0;35mCheck your node with command: hth-cli masternode status[0m"
 	echo -e "[0;35mStop your node with command: hth-cli stop[0m"
 	echo -e "[0;35mStart your node with command: hthd[0m"
 	echo -e "[0;35m==================================================================[0m"
+	echo -e "If you get \"Masternode not in masternode list\" status, don't worry,\nyou just have to start your MN from your local wallet and the status will change"
+	
 }
 
 
@@ -184,7 +185,6 @@ function cleanup() {
 	echo "Cleanup..."
 	apt-get -y autoremove 	&>> ${SCRIPT_LOGFILE}
 	apt-get -y autoclean 		&>> ${SCRIPT_LOGFILE}
-#	echo "Done..."
 }
 
 
@@ -251,5 +251,11 @@ configure_masternode
 show_result
 cleanup
 echo "All done!"
+echo -e "Please join our community at HTH Discord https://discord.gg/eUKyUbB"
+echo "Ann: https://bitcointalk.org/index.php?topic=4578705"
+echo "Twitter: https://twitter.com/hthcoin"
+echo "Reddit: https://www.reddit.com/user/HTHCoin"
+echo "Facebook: https://www.facebook.com/hth.coin.9"
+echo ""
 cd ~/
 sudo rm /root/hth_ubuntu_install.sh
