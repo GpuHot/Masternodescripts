@@ -35,6 +35,9 @@ function install_packages() {
 	git nano python-virtualenv pwgen unzip virtualenv \
 	pkg-config libssl-dev libevent-dev bsdmainutils software-properties-common \
 	libboost-all-dev libminiupnpc-dev libdb4.8-dev libdb4.8++-dev &>> ${SCRIPT_LOGFILE}
+	echo "Removing unnecessary system files..."
+	apt-get -y autoremove
+	apt-get purge $(dpkg -l linux-{image,headers}-"[0-9]*" | awk '/ii/{print $2}' | grep -ve "$(uname -r | sed -r 's/-[a-z]+//')")
 	echo "Install done..."
 	echo ""
 }
