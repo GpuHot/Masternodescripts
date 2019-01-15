@@ -237,9 +237,7 @@ done
 # main routine
 print_greeting
 print_info
-//if [ "$swap" -eq 1 ]; then
 swaphack
-//fi
 install_packages
 
 if [ "$firewall" -eq 1 ]; then
