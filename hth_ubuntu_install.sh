@@ -44,10 +44,13 @@ function swaphack() {
 	echo "Setting up disk swap..."
 	free -h
 	rm -f /var/hth_node_swap.img
-	touch /var/hth_node_swap.img
-	dd if=/dev/zero of=/var/hth_node_swap.img bs=1024k count=2000 &>> ${SCRIPT_LOGFILE}
-	chmod 0600 /var/hth_node_swap.img
-	mkswap /var/hth_node_swap.img &>> ${SCRIPT_LOGFILE}
+	rm -f /swapfile
+	fallocate -l 4G /swapfile &>> ${SCRIPT_LOGFILE}
+	chmod 600 /swapfile
+	mkswap /swapfile
+	swapon /swapfile
+	swapon --show &>> ${SCRIPT_LOGFILE}
+echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
 	free -h
 	echo "Swap setup complete..."
 	echo ""
@@ -234,10 +237,8 @@ done
 # main routine
 print_greeting
 print_info
+swaphack
 install_packages
-if [ "$swap" -eq 1 ]; then
-	swaphack
-fi
 
 if [ "$firewall" -eq 1 ]; then
 	configure_firewall
